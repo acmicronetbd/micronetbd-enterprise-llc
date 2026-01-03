@@ -13,7 +13,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="text-lg md:text-xl lg:text-3xl font-bold tracking-tight text-[#1ba0da]"
+            className="text-lg md:text-xl lg:text-[28px] font-bold tracking-tight text-[#1ba0da]"
           >
             Micronetbd
             <span className="text-gray-900">Enterprise</span>
