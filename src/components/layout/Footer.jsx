@@ -91,7 +91,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://x.com/Micronetbd_org"
+                href="https://x.com/micronetbd_inc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 hover:bg-[#1BA0DA] rounded-lg flex items-center justify-center transition-colors duration-200"

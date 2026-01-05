@@ -20,3 +20,8 @@ export const contractToHire = {
   body: `Our Contract-to-Hire program allows you to evaluate Salesforce
 professionals in real working conditions before making a permanent hire.`,
 };
+
+export const aiSolutions = {
+  headline: "AI-Powered Salesforce Expertise",
+  body: `The future of Salesforce is intelligent. From Einstein AI to Agentforce and generative AI integrations, businesses need specialists who understand both the Salesforce ecosystem and cutting-edge AI technologies. Micronetbd Enterprise connects you with AI-skilled Salesforce professionals who can transform your CRM into a predictive, automated powerhouse.`,
+};

@@ -1,4 +1,5 @@
 import PageHero from "@/components/common/PageHero"
+import AISolutions from "@/components/services/AISolutions"
 import ContractToHire from "@/components/services/ContractToHire"
 import FullTimePlacement from "@/components/services/FullTimePlacement"
 import ManagedStaffing from "@/components/services/ManagedStaffing"
@@ -26,6 +27,7 @@ export default function ServicesPage() {
         <PlacementProcess />
         <ManagedStaffing />
         <ContractToHire />
+        <AISolutions />
       </div>
     </>
   )
