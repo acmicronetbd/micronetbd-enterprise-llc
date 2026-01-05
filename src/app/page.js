@@ -7,6 +7,7 @@ export default function Home() {
     <main>
       <Hero />
       <WhyChooseUs/>
+{/* dfgdf */}
       <Stats/>
     </main>
   );
