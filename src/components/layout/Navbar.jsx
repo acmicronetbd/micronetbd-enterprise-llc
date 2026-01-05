@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
@@ -20,7 +22,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-4 lg:gap-8">
+          <nav className="hidden lg:flex items-center gap-4 lg:gap-8">
             {[
               ["Services", "/services"],
               ["About", "/about"],
@@ -31,7 +33,11 @@ export default function Navbar() {
               <Link
                 key={label}
                 href={href}
-                className="text-xs lg:text-base font-bold text-gray-700 hover:text-gray-900 transition"
+                className={`text-xs lg:text-base font-bold transition relative pb-1 ${
+                  pathname === href || pathname.startsWith(href + "/")
+                    ? "text-[#1ba0da] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#1ba0da]"
+                    : "text-gray-700 hover:text-gray-900"
+                }`}
               >
                 {label}
               </Link>
@@ -39,7 +45,7 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/employers"
               className="text-xs lg:text-base font-bold text-gray-700 hover:text-gray-900 transition"
@@ -61,7 +67,7 @@ export default function Navbar() {
           {/* Mobile Toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 transition"
+            className="lg:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 transition"
             aria-label="Toggle menu"
           >
             <svg
@@ -89,9 +95,17 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Mobile Menu Overlay */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 top-20 z-40"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
+
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white">
+        <div className="lg:hidden absolute left-0 right-0 top-20 z-50 border-t border-gray-100 bg-white shadow-lg">
           <div className="space-y-4 px-4 py-4">
             {[
               ["Services", "/services"],
@@ -103,7 +117,12 @@ export default function Navbar() {
               <Link
                 key={label}
                 href={href}
-                className="block text-lg font-bold text-gray-700 hover:text-gray-900 transition"
+                onClick={() => setMenuOpen(false)}
+                className={`block text-lg font-bold transition ${
+                  pathname === href || pathname.startsWith(href + "/")
+                    ? "text-[#1ba0da] border-l-2 border-[#1ba0da] pl-2"
+                    : "text-gray-700 hover:text-gray-900"
+                }`}
               >
                 {label}
               </Link>
@@ -112,12 +131,14 @@ export default function Navbar() {
             <div className="pt-4 space-y-2">
               <Link
                 href="/employers"
+                onClick={() => setMenuOpen(false)}
                 className="block w-full rounded-md border border-gray-300 px-4 py-2 text-center text-sm font-bold text-gray-700 hover:bg-gray-50 transition"
               >
                 Find Talent
               </Link>
               <Link
                 href="/job-seekers"
+                onClick={() => setMenuOpen(false)}
                 className="block w-full rounded-md bg-[#1BA0DA] px-4 py-2 text-center text-sm font-semibold text-white hover:bg-[#178FC3] transition"
               >
                 Career Jobs
