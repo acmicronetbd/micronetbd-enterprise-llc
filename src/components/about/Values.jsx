@@ -41,7 +41,10 @@ export default function Values() {
             Our Values
           </h2>
           <div className="mt-4 flex justify-center">
-            <div className="w-16 h-1 bg-[#1BA0DA] rounded-full" />
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
           </div>
         </div>
 

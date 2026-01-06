@@ -69,6 +69,12 @@ export default function RolesWePlace() {
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
             Roles We Place
           </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
           <p className="mt-4 text-lg text-gray-600">
             Expert Salesforce professionals across every specialization to match your unique needs.
           </p>

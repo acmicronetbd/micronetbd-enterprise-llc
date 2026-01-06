@@ -8,6 +8,12 @@ export default function WhyChooseUs() {
             Why Companies Trust{" "}
             <span className="text-[#1BA0DA]">Micronetbd Enterprise</span>
           </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
           <p className="mt-4 text-lg text-gray-600">
             We don&apos;t just place Salesforce professionals — we build teams that
             last, perform, and scale with your business.

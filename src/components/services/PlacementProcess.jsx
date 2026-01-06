@@ -63,6 +63,12 @@ export default function PlacementProcess() {
           <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
             Our Placement Process
           </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
           <p className="mt-5 text-lg text-gray-600 leading-relaxed">
             A streamlined approach to finding the perfect Salesforce talent for your team.
           </p>

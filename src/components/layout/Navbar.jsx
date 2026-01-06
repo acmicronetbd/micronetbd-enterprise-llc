@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -11,14 +12,17 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-20 md:h-[90px] items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-lg md:text-xl lg:text-[28px] font-bold tracking-tight text-[#1ba0da]"
-          >
-            Micronetbd
-            <span className="text-gray-900">Enterprise</span>
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="Micronetbd Enterprise"
+              width={240}
+              height={50}
+              className="w-20 md:w-32"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

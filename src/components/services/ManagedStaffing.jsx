@@ -53,6 +53,12 @@ export default function ManagedStaffing() {
           <h2 className="text-xl sm:text-4xl font-semibold tracking-tight text-gray-900">
             {managedStaffing.headline}
           </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
           <p className="mt-5 text-lg text-gray-600 leading-relaxed">
             {managedStaffing.body}
           </p>

@@ -99,6 +99,12 @@ export default function Stats() {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
             Trusted by Industry Leaders
           </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
             We deliver exceptional Salesforce talent with proven results.
           </p>

@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <section className="relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-20 sm:py-24 lg:py-28 flex flex-col lg:flex-row items-center gap-12">
+        <div className="py-12 sm:py-24 lg:py-28 flex flex-col lg:flex-row items-center gap-12">
 
           {/* Left Content */}
           <div className="flex-1 max-w-2xl">
@@ -18,8 +18,8 @@ export default function Hero() {
             {/* Subheadline */}
             <p className="mt-6 text-lg sm:text-xl text-gray-600 leading-relaxed">
               Connecting businesses with certified Salesforce professionals for
-              full-time employment and managed staffing solutions. We don&apos;t
-              consult — we deliver the right people for lasting success.
+              full time employment and managed staffing solutions. We don&apos;t
+              consult we deliver the right people for lasting success.
             </p>
 
             {/* CTA Buttons */}

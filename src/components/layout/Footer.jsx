@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -37,12 +38,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <Link
-              href="/"
-              className="text-2xl font-bold tracking-tight text-[#1BA0DA]"
-            >
-              Micronetbd
-              <span className="text-white">Enterprise</span>
+            <Link href="/">
+              <Image
+                src="/logo.png"
+                alt="Micronetbd Enterprise"
+                width={180}
+                height={60}
+                className="w-20 md:w-32"
+              />
             </Link>
 
             <p className="mt-4 text-gray-400 leading-relaxed max-w-md">

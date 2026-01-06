@@ -2,9 +2,17 @@ export default function Services() {
   return (
     <section className="bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-900 mb-12">
-          Our Services
-        </h2>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900">
+            Our Services
+          </h2>
+          <div className="mt-4 flex justify-center">
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Service 1 */}
@@ -58,7 +66,7 @@ export default function Services() {
             <p className="text-gray-600 leading-relaxed">
               Scale your Salesforce team on demand. Our managed staffing model
               provides dedicated resources who work as an extension of your
-              team—without the overhead of traditional hiring.
+              team without the overhead of traditional hiring.
             </p>
           </div>
 
@@ -83,7 +91,7 @@ export default function Services() {
               Contract-to-Hire Solutions
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Test the fit before making a commitment. Our contract-to-hire
+              Test the fit before making a commitment. Our contract to hire
               option lets you evaluate talent in real working conditions
               before extending a full-time offer.
             </p>

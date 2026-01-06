@@ -53,7 +53,10 @@ export default function PageHero({ title, subtitle, breadcrumbs = [] }) {
 
           {/* Decorative underline */}
           <div className="mt-4 flex justify-center">
-            <div className="w-20 h-1 bg-[#1BA0DA] rounded-full" />
+            <div className="w-24 h-1.5 rounded-full overflow-hidden flex">
+              <div className="w-1/2 h-full bg-[#1c9fda]" />
+              <div className="w-1/2 h-full bg-[#8dc63f]" />
+            </div>
           </div>
 
           {subtitle && (
@@ -64,12 +67,6 @@ export default function PageHero({ title, subtitle, breadcrumbs = [] }) {
         </div>
       </div>
 
-      {/* Bottom Wave Divider */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg className="w-full h-8 sm:h-12 text-white" viewBox="0 0 1440 48" fill="currentColor" preserveAspectRatio="none">
-          <path d="M0,48 L1440,48 L1440,0 C1200,32 960,48 720,48 C480,48 240,32 0,0 L0,48 Z" />
-        </svg>
-      </div>
     </section>
   );
 }
