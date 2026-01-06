@@ -92,7 +92,7 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="relative py-24 bg-white border-y border-gray-200">
+    <section className="relative py-24 bg-white shadow-2xl border-gray-200">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
