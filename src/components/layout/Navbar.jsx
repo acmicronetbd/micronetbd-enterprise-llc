@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  console.log(pathname)
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-100">
@@ -16,7 +17,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/">
             <Image
-              src="/logo.png"
+              src="/logo2.png"
               alt="Micronetbd Enterprise"
               width={240}
               height={50}

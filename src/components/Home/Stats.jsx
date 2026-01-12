@@ -118,7 +118,7 @@ export default function Stats() {
               className="text-center"
             >
               {/* Icon */}
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 mb-5 text-gray-600">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-[#DCEDC4] border border-gray-200 mb-5 text-[#293B12]">
                 {stat.icon}
               </div>
 

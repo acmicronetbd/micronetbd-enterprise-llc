@@ -1,5 +1,4 @@
 import {
-  HiOutlineCog6Tooth,
   HiOutlineCodeBracket,
   HiOutlineBuildingOffice2,
   HiOutlineCloud,
@@ -18,12 +17,14 @@ import {
   HiOutlineBanknotes,
   HiOutlineHandRaised,
 } from "react-icons/hi2";
+import { RiUserSettingsLine } from "react-icons/ri";
+import { TbUserHeart } from "react-icons/tb";
 
 const roleCategories = [
   {
     category: "Administration & Operations",
     roles: [
-      { title: "Salesforce Administrators", icon: HiOutlineCog6Tooth },
+      { title: "Salesforce Administrators", icon: RiUserSettingsLine },
       { title: "Business Analysts", icon: HiOutlineChartBar },
       { title: "Project Managers", icon: HiOutlineClipboardDocumentList },
       { title: "Release Managers", icon: HiOutlineRocketLaunch },
@@ -53,7 +54,7 @@ const roleCategories = [
     category: "Industry-Specific",
     roles: [
       { title: "Litify Specialists (Legal)", icon: HiOutlineScale },
-      { title: "Health Cloud Consultants", icon: HiOutlineHeart },
+      { title: "Health Cloud Consultants", icon: TbUserHeart  },
       { title: "Financial Services Cloud Experts", icon: HiOutlineBanknotes },
       { title: "Nonprofit Cloud Specialists", icon: HiOutlineHandRaised },
     ],

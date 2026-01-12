@@ -3,6 +3,7 @@ import ValueProposition from "@/components/Home/ValueProposition";
 import Services from "@/components/Home/Services";
 import Stats from "@/components/Home/Stats";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   return (
@@ -10,8 +11,9 @@ export default function Home() {
       <Hero />
       <ValueProposition />
       <Services />
-      <WhyChooseUs/>
-      <Stats/>
+      <WhyChooseUs />
+      <Stats />
+      <Toaster />
     </main>
   );
 }

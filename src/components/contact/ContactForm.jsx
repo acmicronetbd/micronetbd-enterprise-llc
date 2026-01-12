@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import {
   HiOutlineBuildingOffice2,
   HiOutlineUser,
@@ -12,11 +13,159 @@ import {
   HiOutlineLink,
 } from "react-icons/hi2";
 
+const GOOGLE_SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbyir7GozfX_ierKX8jSzIg68wK12iuMfO17mhGs-SEB1QcmtDymoQVvTN-KuLSLHGOluw/exec";
+
 export default function ContactForm() {
   const [activeTab, setActiveTab] = useState("employer");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [employerForm, setEmployerForm] = useState({
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    roles: "",
+    message: "",
+  });
+
+  const [jobSeekerForm, setJobSeekerForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    expertise: "",
+    experience: "",
+    linkedin: "",
+    message: "",
+  });
+  const [resumeFile, setResumeFile] = useState(null);
+  const [resumeFileName, setResumeFileName] = useState("");
+
+  const handleEmployerChange = (e) => {
+    const { name, value } = e.target;
+    setEmployerForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEmployerSubmit = async (e) => {
+    e.preventDefault();
+    console.log(employerForm);
+    setIsSubmitting(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("formType", "employer");
+      Object.entries(employerForm).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      await fetch(GOOGLE_SHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
+      });
+
+      toast.success(
+        "Thank you! Your request has been submitted successfully. We'll be in touch soon."
+      );
+      setEmployerForm({
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        roles: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(
+        "Something went wrong. Please try again or contact us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleJobSeekerChange = (e) => {
+    const { name, value } = e.target;
+    setJobSeekerForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("File size must be less than 5MB");
+        return;
+      }
+      setResumeFile(file);
+      setResumeFileName(file.name);
+    }
+  };
+
+  const handleJobSeekerSubmit = async (e) => {
+    e.preventDefault();
+    console.log(jobSeekerForm);
+    if (!resumeFile) {
+      toast.error("Please upload your resume");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(resumeFile);
+
+      reader.onload = async () => {
+        const base64Data = reader.result.split(",")[1];
+
+        const formData = new FormData();
+        formData.append("formType", "jobseeker");
+        Object.entries(jobSeekerForm).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+        formData.append("fileName", resumeFile.name);
+        formData.append("fileType", resumeFile.type);
+        formData.append("fileData", base64Data);
+
+        await fetch(GOOGLE_SHEET_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        });
+
+        toast.success(
+          "Thank you! Your application has been submitted successfully. We'll be in touch soon."
+        );
+        setJobSeekerForm({
+          name: "",
+          email: "",
+          phone: "",
+          expertise: "",
+          experience: "",
+          linkedin: "",
+          message: "",
+        });
+        setResumeFile(null);
+        setResumeFileName("");
+      };
+
+      reader.onerror = () => {
+        toast.error("Error reading file. Please try again.");
+        setIsSubmitting(false);
+      };
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(
+        "Something went wrong. Please try again or contact us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="py-16 sm:py-20">
+      <Toaster position="top-center" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -77,7 +226,7 @@ export default function ContactForm() {
                 </p>
               </div>
 
-              <form className="space-y-6">
+              <form onSubmit={handleEmployerSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name Input */}
                   <div className="group">
@@ -95,6 +244,8 @@ export default function ContactForm() {
                         type="text"
                         id="employer-name"
                         name="name"
+                        value={employerForm.name}
+                        onChange={handleEmployerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="John Smith"
@@ -118,6 +269,8 @@ export default function ContactForm() {
                         type="text"
                         id="employer-company"
                         name="company"
+                        value={employerForm.company}
+                        onChange={handleEmployerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="Company Inc."
@@ -143,6 +296,8 @@ export default function ContactForm() {
                         type="email"
                         id="employer-email"
                         name="email"
+                        value={employerForm.email}
+                        onChange={handleEmployerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="john@company.com"
@@ -166,6 +321,8 @@ export default function ContactForm() {
                         type="tel"
                         id="employer-phone"
                         name="phone"
+                        value={employerForm.phone}
+                        onChange={handleEmployerChange}
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="(555) 123-4567"
                       />
@@ -189,6 +346,8 @@ export default function ContactForm() {
                       type="text"
                       id="employer-roles"
                       name="roles"
+                      value={employerForm.roles}
+                      onChange={handleEmployerChange}
                       className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                       placeholder="e.g., Salesforce Developer, Admin, Architect"
                     />
@@ -206,6 +365,8 @@ export default function ContactForm() {
                   <textarea
                     id="employer-message"
                     name="message"
+                    value={employerForm.message}
+                    onChange={handleEmployerChange}
                     rows={4}
                     className="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-gray-900 placeholder-gray-400 transition-all duration-300 focus:border-[#1BA0DA] focus:bg-white focus:shadow-lg focus:shadow-[#1BA0DA]/10 focus:outline-none resize-none"
                     placeholder="Describe your project, team size, timeline, and any specific requirements..."
@@ -214,14 +375,39 @@ export default function ContactForm() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   style={{
                     background: "linear-gradient(to right, #1BA0DA, #1589BD)",
                     boxShadow: "0 10px 15px -3px rgba(27, 160, 218, 0.25)",
                   }}
                 >
-                  <HiOutlinePaperAirplane className="w-5 h-5" />
-                  Request Free Consultation
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <HiOutlinePaperAirplane className="w-5 h-5" />
+                      Request Free Consultation
+                    </>
+                  )}
                 </button>
               </form>
             </div>
@@ -243,7 +429,7 @@ export default function ContactForm() {
                 </p>
               </div>
 
-              <form className="space-y-6">
+              <form onSubmit={handleJobSeekerSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Name Input */}
                   <div className="group">
@@ -261,6 +447,8 @@ export default function ContactForm() {
                         type="text"
                         id="seeker-name"
                         name="name"
+                        value={jobSeekerForm.name}
+                        onChange={handleJobSeekerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="Jane Doe"
@@ -284,6 +472,8 @@ export default function ContactForm() {
                         type="email"
                         id="seeker-email"
                         name="email"
+                        value={jobSeekerForm.email}
+                        onChange={handleJobSeekerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="jane@email.com"
@@ -309,6 +499,8 @@ export default function ContactForm() {
                         type="tel"
                         id="seeker-phone"
                         name="phone"
+                        value={jobSeekerForm.phone}
+                        onChange={handleJobSeekerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                         placeholder="(555) 123-4567"
@@ -331,24 +523,46 @@ export default function ContactForm() {
                       <select
                         id="seeker-expertise"
                         name="expertise"
+                        value={jobSeekerForm.expertise}
+                        onChange={handleJobSeekerChange}
                         required
                         className="flex-1 bg-transparent py-3 pr-4 text-gray-900 focus:outline-none appearance-none cursor-pointer"
                       >
                         <option value="">Select your expertise</option>
-                        <option value="administrator">Salesforce Administrator</option>
+                        <option value="administrator">
+                          Salesforce Administrator
+                        </option>
                         <option value="developer">Salesforce Developer</option>
                         <option value="architect">Salesforce Architect</option>
-                        <option value="consultant">Salesforce Consultant</option>
-                        <option value="business-analyst">Business Analyst</option>
+                        <option value="consultant">
+                          Salesforce Consultant
+                        </option>
+                        <option value="business-analyst">
+                          Business Analyst
+                        </option>
                         <option value="project-manager">Project Manager</option>
-                        <option value="marketing-cloud">Marketing Cloud Specialist</option>
-                        <option value="commerce-cloud">Commerce Cloud Specialist</option>
+                        <option value="marketing-cloud">
+                          Marketing Cloud Specialist
+                        </option>
+                        <option value="commerce-cloud">
+                          Commerce Cloud Specialist
+                        </option>
                         <option value="cpq">CPQ Specialist</option>
                         <option value="other">Other</option>
                       </select>
                       <div className="pr-4 text-gray-400 pointer-events-none">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </div>
                     </div>
@@ -370,6 +584,8 @@ export default function ContactForm() {
                     <select
                       id="seeker-experience"
                       name="experience"
+                      value={jobSeekerForm.experience}
+                      onChange={handleJobSeekerChange}
                       className="flex-1 bg-transparent py-3 pr-4 text-gray-900 focus:outline-none appearance-none cursor-pointer"
                     >
                       <option value="">Select experience level</option>
@@ -379,8 +595,18 @@ export default function ContactForm() {
                       <option value="8+">8+ years</option>
                     </select>
                     <div className="pr-4 text-gray-400 pointer-events-none">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -394,25 +620,45 @@ export default function ContactForm() {
                   >
                     Upload Resume *
                   </label>
-                  <div className="relative bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-[#8dc63f] hover:bg-[#8dc63f]/5">
+                  <div
+                    className={`relative rounded-xl border-2 border-dashed transition-all duration-300 hover:border-[#8dc63f] hover:bg-[#8dc63f]/5 ${
+                      resumeFileName
+                        ? "border-[#8dc63f] bg-[#8dc63f]/5"
+                        : "bg-gray-50 border-gray-200"
+                    }`}
+                  >
                     <input
                       type="file"
                       id="seeker-resume"
                       name="resume"
-                      required
                       accept=".pdf,.doc,.docx"
+                      onChange={handleFileChange}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <div className="flex flex-col items-center justify-center py-8 px-4">
                       <div className="w-12 h-12 rounded-full bg-[#8dc63f]/10 flex items-center justify-center mb-3">
                         <HiOutlineDocumentText className="w-6 h-6 text-[#8dc63f]" />
                       </div>
-                      <p className="text-sm font-medium text-gray-700">
-                        Drop your resume here or <span className="text-[#8dc63f]">browse</span>
-                      </p>
-                      <p className="mt-1 text-xs text-gray-500">
-                        PDF, DOC, or DOCX (max 5MB)
-                      </p>
+                      {resumeFileName ? (
+                        <>
+                          <p className="text-sm font-medium text-[#8dc63f]">
+                            {resumeFileName}
+                          </p>
+                          <p className="mt-1 text-xs text-gray-500">
+                            Click to change file
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm font-medium text-gray-700">
+                            Drop your resume here or{" "}
+                            <span className="text-[#8dc63f]">browse</span>
+                          </p>
+                          <p className="mt-1 text-xs text-gray-500">
+                            PDF, DOC, or DOCX (max 5MB)
+                          </p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -433,6 +679,8 @@ export default function ContactForm() {
                       type="url"
                       id="seeker-linkedin"
                       name="linkedin"
+                      value={jobSeekerForm.linkedin}
+                      onChange={handleJobSeekerChange}
                       className="flex-1 bg-transparent py-3 pr-4 text-gray-900 placeholder-gray-400 focus:outline-none"
                       placeholder="https://linkedin.com/in/yourprofile"
                     />
@@ -450,6 +698,8 @@ export default function ContactForm() {
                   <textarea
                     id="seeker-message"
                     name="message"
+                    value={jobSeekerForm.message}
+                    onChange={handleJobSeekerChange}
                     rows={4}
                     className="block w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl text-gray-900 placeholder-gray-400 transition-all duration-300 focus:border-[#8dc63f] focus:bg-white focus:shadow-lg focus:shadow-[#8dc63f]/10 focus:outline-none resize-none"
                     placeholder="Tell us about your career goals, certifications, preferred work arrangement (remote/hybrid/onsite), etc."
@@ -458,14 +708,39 @@ export default function ContactForm() {
 
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   style={{
                     background: "linear-gradient(to right, #8dc63f, #7ab536)",
                     boxShadow: "0 10px 15px -3px rgba(141, 198, 63, 0.25)",
                   }}
                 >
-                  <HiOutlinePaperAirplane className="w-5 h-5" />
-                  Submit Your Application
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      <HiOutlinePaperAirplane className="w-5 h-5" />
+                      Submit Your Application
+                    </>
+                  )}
                 </button>
               </form>
             </div>
