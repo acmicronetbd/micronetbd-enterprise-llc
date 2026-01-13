@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/">
               <Image
-                src="/logo.png"
+                src="/logo2.png"
                 alt="Micronetbd Enterprise"
                 width={180}
                 height={60}

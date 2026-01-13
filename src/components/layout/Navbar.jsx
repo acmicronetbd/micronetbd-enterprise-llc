@@ -29,8 +29,8 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-4 lg:gap-8">
             {[
-              ["Services", "/services"],
               ["About", "/about"],
+              ["Services", "/services"],
               ["Employers", "/employers"],
               ["Job Seekers", "/job-seekers"],
               ["Contact", "/contact"],
@@ -50,7 +50,7 @@ export default function Navbar() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-5">
             <Link
               href="/employers"
               className="text-xs lg:text-base font-bold text-gray-700 hover:text-gray-900 transition"

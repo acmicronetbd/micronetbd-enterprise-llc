@@ -14,7 +14,7 @@ import {
 } from "react-icons/hi2";
 
 const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbyir7GozfX_ierKX8jSzIg68wK12iuMfO17mhGs-SEB1QcmtDymoQVvTN-KuLSLHGOluw/exec";
+  "https://script.google.com/macros/s/AKfycbxvqVva0oadyp3ADHJRMy2oEiaZ_zM0w-d3ZvZgwyq7omPDB4mT1fYPKEIjtQG0ljZTUw/exec";
 
 export default function ContactForm() {
   const [activeTab, setActiveTab] = useState("employer");
